@@ -1,0 +1,90 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="rule-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        @for (type of alertTypes; track type) {
+          <mat-option [value]="type">{{ type }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (isThreshold()) {
+      <mat-form-field appearance="outline">
+        <mat-label>Metric</mat-label>
+        <mat-select formControlName="metric">
+          @for (m of metrics; track m) {
+            <mat-option [value]="m">{{ m }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Operator</mat-label>
+        <mat-select formControlName="operator">
+          @for (op of operators; track op) {
+            <mat-option [value]="op">{{ op }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Threshold</mat-label>
+        <input matInput type="number" formControlName="threshold" />
+      </mat-form-field>
+    }
+
+    @if (isGeofence()) {
+      <mat-form-field appearance="outline">
+        <mat-label>Geofence</mat-label>
+        <mat-select formControlName="geofenceId">
+          @for (fence of data.geofences; track fence.id) {
+            <mat-option [value]="fence.id">{{ fence.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Trigger on</mat-label>
+        <mat-select formControlName="geofenceMode">
+          @for (mode of geofenceModes; track mode) {
+            <mat-option [value]="mode">{{ mode }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
+
+    <mat-form-field appearance="outline">
+      <mat-label>Device type</mat-label>
+      <mat-select formControlName="deviceType">
+        <mat-option [value]="null">Any</mat-option>
+        @for (dt of deviceTypes; track dt) {
+          <mat-option [value]="dt">{{ dt }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Severity</mat-label>
+      <mat-select formControlName="severity">
+        @for (s of severities; track s) {
+          <mat-option [value]="s">{{ s }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="enabled">Enabled</mat-slide-toggle>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

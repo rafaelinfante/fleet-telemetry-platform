@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+
+  button mat-icon {
+    margin-right: 0.25rem;
+  }
+}
+
+.table-card {
+  padding: 0.5rem;
+  overflow: auto;
+}
+
+.rule-table {
+  width: 100%;
+  background: transparent;
+}
+
+.actions-col {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.empty {
+  padding: 1.5rem;
+  text-align: center;
+}

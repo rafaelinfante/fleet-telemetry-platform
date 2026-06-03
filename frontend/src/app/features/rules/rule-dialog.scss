@@ -1,0 +1,11 @@
+.rule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 360px;
+  padding-top: 0.5rem;
+}
+
+mat-slide-toggle {
+  margin: 0.5rem 0 0.25rem;
+}
