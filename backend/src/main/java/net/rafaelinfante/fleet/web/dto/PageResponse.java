@@ -1,0 +1,19 @@
+package net.rafaelinfante.fleet.web.dto;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+
+/** Stable, app-owned page envelope (Spring's PageImpl JSON shape is explicitly not a supported contract). */
+public record PageResponse<T>(
+        List<T> content,
+        int number,
+        int size,
+        long totalElements,
+        int totalPages) {
+
+    public static <T> PageResponse<T> of(Page<T> page) {
+        return new PageResponse<>(page.getContent(), page.getNumber(), page.getSize(),
+                page.getTotalElements(), page.getTotalPages());
+    }
+}

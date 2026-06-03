@@ -1,0 +1,51 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.stat {
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .label {
+    font-size: 0.78rem;
+  }
+  .figure {
+    font: var(--mat-sys-headline-small);
+  }
+}
+
+.meta {
+  padding: 1rem 1.25rem;
+
+  dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem 1rem;
+    margin: 0;
+  }
+  dt {
+    font-size: 0.8rem;
+  }
+  dd {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+.chart-card {
+  padding: 1rem 1.25rem;
+}
+
+.chart-wrap {
+  position: relative;
+  height: 320px;
+}
+
+.empty {
+  padding: 1rem 0;
+}

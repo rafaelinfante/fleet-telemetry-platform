@@ -1,0 +1,75 @@
+.map-card,
+.feed-card {
+  padding: 1rem;
+  height: calc(100vh - 64px - 2.5rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.map-bar,
+.feed-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.map {
+  flex: 1 1 auto;
+  border-radius: 8px;
+  min-height: 320px;
+}
+
+.legend {
+  display: flex;
+  gap: 0.9rem;
+  font-size: 0.78rem;
+  color: var(--mat-sys-on-surface-variant);
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot.online {
+    background: var(--status-online);
+  }
+  .dot.offline {
+    background: var(--status-offline);
+  }
+  .dot.unknown {
+    background: var(--status-unknown);
+  }
+  .dot.critical {
+    background: var(--severity-critical);
+  }
+}
+
+.count {
+  font-size: 0.82rem;
+  color: var(--mat-sys-on-surface-variant);
+
+  &.has-active {
+    color: var(--severity-critical);
+    font-weight: 600;
+  }
+}
+
+app-alert-feed {
+  flex: 1 1 auto;
+  overflow: hidden;
+  display: flex;
+}
+
+app-alert-feed .feed {
+  flex: 1 1 auto;
+}

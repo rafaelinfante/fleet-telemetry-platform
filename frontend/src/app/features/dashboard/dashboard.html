@@ -1,0 +1,30 @@
+<div class="page dashboard">
+  <div class="row g-3">
+    <div class="col-12 col-lg-8">
+      <mat-card class="map-card surface-card">
+        <div class="map-bar">
+          <h2 class="page-title m-0">Live fleet map</h2>
+          <div class="legend">
+            <span><i class="dot online"></i> Online</span>
+            <span><i class="dot offline"></i> Offline</span>
+            <span><i class="dot unknown"></i> Unknown</span>
+            <span><i class="dot critical"></i> Critical alert</span>
+          </div>
+        </div>
+        <div #map class="map"></div>
+      </mat-card>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <mat-card class="feed-card surface-card">
+        <div class="feed-bar">
+          <h2 class="page-title m-0">Live alerts</h2>
+          <span class="count" [class.has-active]="activeAlerts().length">
+            {{ activeAlerts().length }} active
+          </span>
+        </div>
+        <app-alert-feed [limit]="60" />
+      </mat-card>
+    </div>
+  </div>
+</div>

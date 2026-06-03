@@ -1,0 +1,28 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.versionsBackup
+
+# Node / Angular
+node_modules/
+frontend/dist/
+frontend/.angular/
+*.log
+npm-debug.log*
+
+# Environment / secrets
+.env
+*.env
+!.env.example
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS
+.DS_Store
+Thumbs.db

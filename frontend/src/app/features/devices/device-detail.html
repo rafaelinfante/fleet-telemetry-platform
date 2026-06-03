@@ -1,0 +1,75 @@
+<div class="page device-detail">
+  <div class="header">
+    <a mat-icon-button routerLink="/devices" aria-label="Back to devices">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    @if (device(); as d) {
+      <h1 class="page-title m-0">{{ d.name }}</h1>
+      <app-status-chip [status]="d.status" />
+    } @else {
+      <h1 class="page-title m-0">{{ id() }}</h1>
+    }
+  </div>
+
+  @if (device(); as d) {
+    <div class="row g-3 mb-3">
+      <div class="col-6 col-md-3">
+        <mat-card class="surface-card stat">
+          <span class="label text-muted-soft">Speed</span>
+          <span class="figure">{{ value(d.lastSpeedKmh, ' km/h') }}</span>
+        </mat-card>
+      </div>
+      <div class="col-6 col-md-3">
+        <mat-card class="surface-card stat">
+          <span class="label text-muted-soft">Battery</span>
+          <span class="figure">{{ value(d.lastBatteryPct, '%') }}</span>
+        </mat-card>
+      </div>
+      <div class="col-6 col-md-3">
+        <mat-card class="surface-card stat">
+          <span class="label text-muted-soft">Fuel</span>
+          <span class="figure">{{ value(d.lastFuelPct, '%') }}</span>
+        </mat-card>
+      </div>
+      <div class="col-6 col-md-3">
+        <mat-card class="surface-card stat">
+          <span class="label text-muted-soft">Engine temp</span>
+          <span class="figure">{{ value(d.lastEngineTempC, '°C') }}</span>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-md-4">
+        <mat-card class="surface-card meta">
+          <dl>
+            <dt class="text-muted-soft">Device id</dt>
+            <dd>{{ d.deviceId }}</dd>
+            <dt class="text-muted-soft">Type</dt>
+            <dd>{{ d.type }}</dd>
+            <dt class="text-muted-soft">Odometer</dt>
+            <dd>{{ value(d.lastOdometerKm, ' km') }}</dd>
+            <dt class="text-muted-soft">First seen</dt>
+            <dd>{{ relative(d.firstSeenAt) }}</dd>
+            <dt class="text-muted-soft">Last seen</dt>
+            <dd>{{ relative(d.lastSeenAt) }}</dd>
+          </dl>
+        </mat-card>
+      </div>
+
+      <div class="col-12 col-md-8">
+        <mat-card class="surface-card chart-card">
+          <h2 class="page-title">Recent readings</h2>
+          <div class="chart-wrap">
+            <canvas #chart></canvas>
+          </div>
+          @if (!hasReadings()) {
+            <p class="empty text-muted-soft">No readings recorded for this device yet.</p>
+          }
+        </mat-card>
+      </div>
+    </div>
+  } @else {
+    <p class="text-muted-soft">Loading device…</p>
+  }
+</div>

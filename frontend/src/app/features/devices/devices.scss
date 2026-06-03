@@ -1,0 +1,22 @@
+.table-card {
+  padding: 0.5rem;
+  overflow: auto;
+}
+
+.device-table {
+  width: 100%;
+  background: transparent;
+}
+
+.clickable {
+  cursor: pointer;
+
+  &:hover {
+    background: var(--mat-sys-surface-container-high);
+  }
+}
+
+.empty {
+  padding: 1.5rem;
+  text-align: center;
+}

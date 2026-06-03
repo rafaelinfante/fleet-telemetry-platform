@@ -1,0 +1,92 @@
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$cyan-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+
+  // Severity scale shared by chips, alert feed and map markers.
+  --severity-info: #5b6b7b;
+  --severity-warning: #c77700;
+  --severity-critical: #c62828;
+
+  // Device status scale, reused by the map legend and table chips.
+  --status-online: #2e7d32;
+  --status-offline: #7a7a7a;
+  --status-unknown: #c77700;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.page {
+  padding: 1.25rem 1.5rem;
+}
+
+.page-title {
+  margin: 0 0 1rem;
+  font: var(--mat-sys-headline-small);
+}
+
+.surface-card {
+  background: var(--mat-sys-surface-container-low);
+  border-radius: 12px;
+}
+
+// Severity chips: a single class drives colour from the tokens above.
+.severity-chip {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+
+  &.severity-info {
+    background: color-mix(in srgb, var(--severity-info) 16%, transparent);
+    color: var(--severity-info);
+  }
+  &.severity-warning {
+    background: color-mix(in srgb, var(--severity-warning) 18%, transparent);
+    color: var(--severity-warning);
+  }
+  &.severity-critical {
+    background: color-mix(in srgb, var(--severity-critical) 18%, transparent);
+    color: var(--severity-critical);
+  }
+}
+
+.status-chip {
+  font-weight: 600;
+
+  &.status-online {
+    background: color-mix(in srgb, var(--status-online) 16%, transparent);
+    color: var(--status-online);
+  }
+  &.status-offline {
+    background: color-mix(in srgb, var(--status-offline) 18%, transparent);
+    color: var(--status-offline);
+  }
+  &.status-unknown {
+    background: color-mix(in srgb, var(--status-unknown) 18%, transparent);
+    color: var(--status-unknown);
+  }
+}
+
+.text-muted-soft {
+  color: var(--mat-sys-on-surface-variant);
+}

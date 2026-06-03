@@ -1,0 +1,52 @@
+<mat-toolbar color="primary" class="app-toolbar">
+  <button mat-icon-button (click)="drawer.toggle()" aria-label="Toggle navigation">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="brand">Fleet Telemetry</span>
+  <span class="spacer"></span>
+
+  <span class="toolbar-stat" matTooltip="Devices online / total">
+    <mat-icon>sensors</mat-icon>
+    {{ onlineCount() }}/{{ deviceCount() }}
+  </span>
+
+  @if (criticalCount().length) {
+    <a
+      routerLink="/alerts"
+      class="toolbar-stat critical"
+      [matBadge]="criticalCount().length"
+      matBadgeColor="warn"
+      matTooltip="Active critical alerts"
+    >
+      <mat-icon>warning</mat-icon>
+    </a>
+  }
+
+  <span
+    class="conn-dot"
+    [class.connected]="connected()"
+    [matTooltip]="connected() ? 'Live feed connected' : 'Live feed offline'"
+  ></span>
+</mat-toolbar>
+
+<mat-sidenav-container class="app-container">
+  <mat-sidenav #drawer mode="side" opened class="app-sidenav">
+    <mat-nav-list>
+      @for (link of links; track link.path) {
+        <a
+          mat-list-item
+          [routerLink]="link.path"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: link.exact }"
+        >
+          <mat-icon matListItemIcon>{{ link.icon }}</mat-icon>
+          <span matListItemTitle>{{ link.label }}</span>
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>
