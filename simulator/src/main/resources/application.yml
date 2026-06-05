@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: fleet-device-simulator
+  main:
+    web-application-type: none
+
+simulator:
+  broker-url: ${MQTT_URL:tcp://localhost:1883}
+  device-count: ${SIM_DEVICE_COUNT:12}
+  publish-interval: ${SIM_PUBLISH_INTERVAL:2s}
+  anomaly-rate: ${SIM_ANOMALY_RATE:0.05}
+  corrupt-rate: ${SIM_CORRUPT_RATE:0.01}
+  center-lat: ${SIM_CENTER_LAT:53.3498}
+  center-lng: ${SIM_CENTER_LNG:-6.2603}
+  spread-km: ${SIM_SPREAD_KM:6}
+
+logging:
+  level:
+    net.rafaelinfante.fleet.simulator: INFO

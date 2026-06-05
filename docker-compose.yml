@@ -1,0 +1,97 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0.22
+    volumes:
+      - ./infra/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    ports:
+      - "1883:1883"
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_pub -h localhost -t healthcheck -m ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:4.3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-fleet}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-fleet}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-fleet}
+      MYSQL_USER: ${MYSQL_USER:-fleet}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-fleet}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-fleet-root}
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD:-fleet-root}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-fleet}
+      MYSQL_USER: ${MYSQL_USER:-fleet}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-fleet}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER:-fleet}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-fleet}
+      MQTT_URL: tcp://mosquitto:1883
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      mosquitto:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health | grep -q UP || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  simulator:
+    build:
+      context: .
+      dockerfile: simulator/Dockerfile
+    environment:
+      MQTT_URL: tcp://mosquitto:1883
+      SIM_DEVICE_COUNT: ${SIM_DEVICE_COUNT:-12}
+      SIM_PUBLISH_INTERVAL: ${SIM_PUBLISH_INTERVAL:-2s}
+      SIM_ANOMALY_RATE: ${SIM_ANOMALY_RATE:-0.05}
+      SIM_CORRUPT_RATE: ${SIM_CORRUPT_RATE:-0.01}
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+      backend:
+        condition: service_started
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8088:80"
+    depends_on:
+      backend:
+        condition: service_started
