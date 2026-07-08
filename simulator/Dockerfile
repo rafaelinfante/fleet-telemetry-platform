@@ -7,7 +7,7 @@ COPY simulator/pom.xml simulator/pom.xml
 COPY simulator/src simulator/src
 RUN mvn -q -pl simulator -am -DskipTests package
 
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:25-jre
 WORKDIR /app
 COPY --from=build /workspace/simulator/target/fleet-device-simulator.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
